@@ -1,5 +1,5 @@
 from linked_list import __version__
-from linked_list.linked_list import LinkedList, Node
+from linked_list.linked_list import LinkedList, Node, zip_lists
 
 import pytest
 
@@ -113,3 +113,17 @@ def test_insert_method(setup_linked_list, setup_nodes):
     assert myLinkedList.len() == 2
     assert myLinkedList.head == n5
     assert myLinkedList.tail == n6
+
+
+def test_zip_lists_function(setup_linked_list, setup_nodes):
+    n1, n2, n3, n4 = setup_nodes
+
+    result1 = zip_lists(LinkedList(), LinkedList())
+    assert result1.len() == 0
+
+    assert zip_lists(setup_linked_list, LinkedList()) is None
+
+    result2 = zip_lists(setup_linked_list, setup_linked_list).to_list()
+    actual = list(map(lambda node: node.value, result2))
+    expected = [2, 4, 6, 8]
+    assert actual == expected

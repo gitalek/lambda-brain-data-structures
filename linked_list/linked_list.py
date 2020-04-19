@@ -7,6 +7,7 @@ class Node:
 class LinkedList:
     # очистка нод (свойства next)?_?
     # мутабельный LinkedList?_?
+    # добавить указатель на текущую ноду списка?_?
 
     def __init__(self):
         self.head = None
@@ -94,3 +95,29 @@ class LinkedList:
             if node is afterNode:
                 afterNode.next = newNode
             node = node.next
+
+    def to_list(self):
+        node = self.head
+        nodes = []
+        while node is not None:
+            nodes.append(node)
+            node = node.next
+        return nodes
+
+
+def zip_lists(list1, list2):
+    count = list1.len()
+    if count != list2.len():
+        return None
+    if count == 0:
+        return LinkedList()
+
+    result = LinkedList()
+    node1 = list1.head
+    node2 = list2.head
+    for _ in range(count):
+        val1, val2 = node1.value, node2.value
+        node = Node(val1 + val2)
+        result.add_in_tail(node)
+        node1, node2 = node1.next, node2.next
+    return result
