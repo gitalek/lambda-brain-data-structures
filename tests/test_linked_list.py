@@ -1,4 +1,3 @@
-from linked_list import __version__
 from linked_list.linked_list import LinkedList, Node, zip_lists
 
 import pytest
@@ -25,10 +24,6 @@ def setup_linked_list(setup_nodes):
     linkedList.add_in_tail(n4)
 
     return linkedList
-
-
-def test_version():
-    assert __version__ == '0.1.0'
 
 
 def test_len_and_clean_methods(setup_nodes):
