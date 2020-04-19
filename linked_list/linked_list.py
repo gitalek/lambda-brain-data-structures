@@ -8,7 +8,6 @@ class LinkedList:
     # очистка нод (свойства next)?_?
     # мутабельный LinkedList?_?
     # добавить указатель на текущую ноду списка?_?
-
     def __init__(self):
         self.head = None
         self.tail = None
@@ -74,7 +73,6 @@ class LinkedList:
     def clean(self):
         # need immutable version?_?
         # return LinkedList()
-        # need mutable version?_?
         self.head = None
         self.tail = None
 
