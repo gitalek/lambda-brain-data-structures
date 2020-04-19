@@ -44,24 +44,30 @@ class LinkedList:
         return nodes
 
     def delete(self, val, all=False):  # returned value?_?
-        prevNode = curNode = self.head
+        curNode = self.head
         deletedNodes = []
         while curNode is not None:
-            if curNode.value == val:
-                if curNode is self.head and curNode is self.tail:
-                    self.head = None
-                    self.tail = None
-                else:
-                    prevNode.next = curNode.next
-                    if curNode is self.head:
-                        self.head = curNode.next
-                    if curNode is self.tail:
-                        self.tail = prevNode
-                if not all:
-                    return curNode
-                else:
-                    deletedNodes.append(curNode)
-            prevNode = curNode
+            if curNode.value != val:
+                prevNode = curNode
+                curNode = curNode.next
+                continue
+
+            if curNode is self.head and curNode is self.tail:
+                self.head = None
+                self.tail = None
+            elif curNode is self.head:
+                self.head = curNode.next
+            elif curNode is self.tail:
+                prevNode.next = None  # experiment
+                self.tail = prevNode
+            else:
+                prevNode.next = curNode.next
+
+            if not all:
+                return curNode
+            else:
+                deletedNodes.append(curNode)
+
             curNode = curNode.next
         return deletedNodes
 
@@ -96,11 +102,12 @@ class LinkedList:
                 afterNode.next = newNode
             node = node.next
 
-    def to_list(self):
+    def to_list(self, onlyValues=False):
         node = self.head
         nodes = []
         while node is not None:
-            nodes.append(node)
+            value = node.value if onlyValues else node
+            nodes.append(value)
             node = node.next
         return nodes
 
