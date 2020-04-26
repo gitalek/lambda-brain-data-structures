@@ -1,13 +1,11 @@
 class Node:
     def __init__(self, v):
         self.value = v
+        self.prev = None
         self.next = None
 
 
-class LinkedList:
-    # очистка нод (свойства next)?_?
-    # мутабельный LinkedList?_?
-    # добавить указатель на текущую ноду списка?_?
+class LinkedList2:
     def __init__(self):
         self.head = None
         self.tail = None
@@ -15,16 +13,26 @@ class LinkedList:
     def add_in_tail(self, item):
         if self.head is None:
             self.head = item
+            item.prev = None
+            item.next = None
         else:
             self.tail.next = item
+            item.prev = self.tail
         self.tail = item
 
-    def print_all_nodes(self):
-        node = self.head
-        while node is not None:
-            print(node.value)
-            node = node.next
+    # покрыть тестами
+    def add_in_head(self, item):
+        if self.head is None:
+            self.tail = item
+            item.prev = None
+            item.next = None
+        else:
+            self.head.prev = item
+            item.next = self.head
+        self.head = item
 
+    # поиск с разных концов (флаг)
+    # переписать на рекурсию
     def find(self, val):
         node = self.head
         while node is not None:
@@ -42,33 +50,33 @@ class LinkedList:
             node = node.next
         return nodes
 
-    def delete(self, val, all=False):  # returned value?_?
-        curNode = self.head
-        deletedNodes = []
-        while curNode is not None:
-            if curNode.value != val:
-                prevNode = curNode
-                curNode = curNode.next
+    def delete(self, val, all=False):
+        pointer = self.head
+        removedNodes = []
+        while pointer is not None:
+            if pointer.value != val:
+                pointer = pointer.next
                 continue
 
-            if curNode is self.head and curNode is self.tail:
+            if pointer is self.head and pointer is self.tail:
                 self.head = None
                 self.tail = None
-            elif curNode is self.head:
-                self.head = curNode.next
-            elif curNode is self.tail:
-                prevNode.next = None  # experiment
-                self.tail = prevNode
+            elif pointer is self.head:
+                self.head = pointer.next
+            elif pointer is self.tail:
+                self.tail = pointer.prev
+                pointer.prev.next = None
             else:
-                prevNode.next = curNode.next
+                pointer.prev.next = pointer.next
+                pointer.next.prev = pointer.prev
 
             if not all:
-                return curNode
+                return pointer
             else:
-                deletedNodes.append(curNode)
+                removedNodes.append(pointer)
 
-            curNode = curNode.next
-        return deletedNodes
+            pointer = pointer.next
+        return removedNodes
 
     def clean(self):
         # need immutable version?_?
@@ -84,20 +92,24 @@ class LinkedList:
             node = node.next
         return i
 
+    def is_empty(self):
+        return self.head is None
+
     def insert(self, afterNode, newNode):
         if afterNode is None:
-            newNode.next = self.head
-            self.head = newNode
-            self.tail = newNode  # Interface method?_?
+            (self.add_in_head(newNode) if self.is_empty()
+             else self.add_in_tail(newNode))
             return
         if afterNode is self.tail:
             self.add_in_tail(newNode)
             return
 
-        node = self.head
+        node = self.node
         while node is not None:
             if node is afterNode:
+                newNode.next = afterNode.next
                 afterNode.next = newNode
+                newNode.prev = afterNode
             node = node.next
 
     def to_list(self, onlyValues=False):
@@ -108,21 +120,3 @@ class LinkedList:
             nodes.append(value)
             node = node.next
         return nodes
-
-
-def zip_lists(list1, list2):
-    count = list1.len()
-    if count != list2.len():
-        return None
-    if count == 0:
-        return LinkedList()
-
-    result = LinkedList()
-    node1 = list1.head
-    node2 = list2.head
-    for _ in range(count):
-        val1, val2 = node1.value, node2.value
-        node = Node(val1 + val2)
-        result.add_in_tail(node)
-        node1, node2 = node1.next, node2.next
-    return result

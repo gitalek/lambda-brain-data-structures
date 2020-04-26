@@ -1,14 +1,14 @@
 [tool.poetry]
 name = "gitalek_linked_list"
 version = "0.1.3"
-description = "Linked list realization"
+description = "Data structures realization"
 authors = ["Alexander <sunny.os87@rambler.ru>"]
 packages = [
-  { include = "linked_list" }
+  { include = "data_structures" }
 ]
 
 [tool.poetry.scripts]
-linked-list = "linked_list.scripts.linked_list:main"
+linked-list = "data_structures.scripts.linked_list:main"
 
 [tool.poetry.dependencies]
 python = "3.6.10"

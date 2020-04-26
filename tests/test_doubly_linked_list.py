@@ -1,4 +1,4 @@
-from data_structures.linked_list import LinkedList, Node, zip_lists
+from data_structures.doubly_linked_list import LinkedList2, Node
 
 import pytest
 
@@ -17,7 +17,7 @@ def setup_nodes():
 def setup_linked_list(setup_nodes):
     n1, n2, n3, n4 = setup_nodes
 
-    linkedList = LinkedList()
+    linkedList = LinkedList2()
     linkedList.add_in_tail(n1)
     linkedList.add_in_tail(n2)
     linkedList.add_in_tail(n3)
@@ -26,27 +26,31 @@ def setup_linked_list(setup_nodes):
     return linkedList
 
 
-def test_len_and_clean_methods(setup_nodes):
+def test_len_and_clean_and_is_empty_methods(setup_nodes):
     n1, n2, n3, n4 = setup_nodes
 
-    myLinkedList = LinkedList()
+    myLinkedList = LinkedList2()
     assert myLinkedList.len() == 0
+    assert myLinkedList.is_empty() is True
 
     myLinkedList.add_in_tail(n1)
     assert myLinkedList.len() == 1
+    assert myLinkedList.is_empty() is False
 
     myLinkedList.add_in_tail(n2)
     myLinkedList.add_in_tail(n3)
     myLinkedList.add_in_tail(n4)
     assert myLinkedList.len() == 4
+    assert myLinkedList.is_empty() is False
 
     myLinkedList.clean()
     assert myLinkedList.len() == 0
+    assert myLinkedList.is_empty() is True
 
 
 def test_find_all_method(setup_linked_list, setup_nodes):
     n1, n2, n3, n4 = setup_nodes
-    emptyLinkedList = LinkedList()
+    emptyLinkedList = LinkedList2()
 
     assert emptyLinkedList.find_all('non-existent value') == []
     assert setup_linked_list.find_all('non-existent value') == []
@@ -64,7 +68,7 @@ def test_find_all_method(setup_linked_list, setup_nodes):
 
 def test_delete_method(setup_linked_list, setup_nodes):
     n1, n2, n3, n4 = setup_nodes
-    emptyLinkedList = LinkedList()
+    emptyLinkedList = LinkedList2()
 
     emptyLinkedList.delete(1)
     assert emptyLinkedList.len() == 0
@@ -130,7 +134,7 @@ def test_delete_method_delete_all_case(setup_linked_list, setup_nodes):
 
 def test_insert_method(setup_linked_list, setup_nodes):
     n1, n2, n3, n4 = setup_nodes
-    myLinkedList = LinkedList()
+    myLinkedList = LinkedList2()
 
     n5 = Node(5)
     n6 = Node(6)
@@ -142,17 +146,3 @@ def test_insert_method(setup_linked_list, setup_nodes):
     assert myLinkedList.len() == 2
     assert myLinkedList.head == n5
     assert myLinkedList.tail == n6
-
-
-def test_zip_lists_function(setup_linked_list, setup_nodes):
-    n1, n2, n3, n4 = setup_nodes
-
-    result1 = zip_lists(LinkedList(), LinkedList())
-    assert result1.len() == 0
-
-    assert zip_lists(setup_linked_list, LinkedList()) is None
-
-    result2 = zip_lists(setup_linked_list, setup_linked_list).to_list()
-    actual = list(map(lambda node: node.value, result2))
-    expected = [2, 4, 6, 8]
-    assert actual == expected
