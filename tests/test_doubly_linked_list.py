@@ -68,34 +68,34 @@ def test_find_all_method(setup_linked_list, setup_nodes):
 
 def test_delete_method(setup_linked_list, setup_nodes):
     n1, n2, n3, n4 = setup_nodes
-    emptyLinkedList = LinkedList2()
-
-    emptyLinkedList.delete(1)
-    assert emptyLinkedList.len() == 0
 
     deletedN1 = setup_linked_list.delete(1)
     assert setup_linked_list.len() == 3
     assert deletedN1 == n1
 
-    deletedN4 = setup_linked_list.delete(4)
+    assert setup_linked_list.head == n2
+    assert setup_linked_list.tail == n4
+
+    deletedN2 = setup_linked_list.delete(2)
     assert setup_linked_list.len() == 2
+    assert deletedN2 == n2
+
+    assert setup_linked_list.head == n3
+    assert setup_linked_list.tail == n4
+
+    deletedN3 = setup_linked_list.delete(3)
+    assert setup_linked_list.len() == 1
+    assert deletedN3 == n3
+
+    assert setup_linked_list.head == n4
+    assert setup_linked_list.tail == n4
+    assert n4.next is None
+    assert n4.prev is None
+
+    deletedN4 = setup_linked_list.delete(4)
+    assert setup_linked_list.len() == 0
     assert deletedN4 == n4
 
-    assert setup_linked_list.head == n2
-    assert setup_linked_list.tail == n3
-
-    sameAsN2 = Node(2)
-    sameAsN3 = Node(3)
-    setup_linked_list.add_in_tail(sameAsN2)
-    setup_linked_list.add_in_tail(sameAsN3)
-    deletedN2Nodes = setup_linked_list.delete(2, True)
-    assert deletedN2Nodes == [n2, sameAsN2]
-    assert setup_linked_list.len() == 2
-    assert setup_linked_list.head == n3
-    assert setup_linked_list.tail == sameAsN3
-    deletedN3Nodes = setup_linked_list.delete(3, True)
-    assert deletedN3Nodes == [n3, sameAsN3]
-    assert setup_linked_list.len() == 0
     assert setup_linked_list.head is None
     assert setup_linked_list.tail is None
 
@@ -128,6 +128,38 @@ def test_delete_method_delete_all_case(setup_linked_list, setup_nodes):
     assert deletedN1Nodes == [n1]
     deletedN4Nodes = setup_linked_list.delete(4, True)
     assert deletedN4Nodes == [n4]
+    assert setup_linked_list.head is None
+    assert setup_linked_list.tail is None
+
+
+def test_delete_method_delete_all_case_additional(
+    setup_linked_list,
+    setup_nodes,
+):
+    n1, n2, n3, n4 = setup_nodes
+
+    n2_01 = Node(2)
+    n2_02 = Node(2)
+    n2_03 = Node(2)
+    n2_04 = Node(2)
+    setup_linked_list.delete(1, True)
+    setup_linked_list.delete(4, True)
+    assert setup_linked_list.len() == 2
+    setup_linked_list.add_in_tail(n2_01)
+    setup_linked_list.add_in_tail(n2_02)
+    setup_linked_list.add_in_tail(n2_03)
+    setup_linked_list.add_in_tail(n2_04)
+    assert setup_linked_list.len() == 6
+    deletedN2Nodes = setup_linked_list.delete(2, True)
+    assert deletedN2Nodes == [n2, n2_01, n2_02, n2_03, n2_04]
+    assert setup_linked_list.len() == 1
+    assert setup_linked_list.head == n3
+    assert setup_linked_list.tail == n3
+    assert n3.next is None
+    assert n3.prev is None
+    deletedN3Nodes = setup_linked_list.delete(3, True)
+    assert deletedN3Nodes == [n3]
+    assert setup_linked_list.len() == 0
     assert setup_linked_list.head is None
     assert setup_linked_list.tail is None
 

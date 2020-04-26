@@ -63,6 +63,7 @@ class LinkedList2:
                 self.tail = None
             elif pointer is self.head:
                 self.head = pointer.next
+                pointer.next.prev = None
             elif pointer is self.tail:
                 self.tail = pointer.prev
                 pointer.prev.next = None

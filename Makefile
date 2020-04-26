@@ -15,7 +15,7 @@ test:
 	poetry run pytest -vv
 
 test_linked_list:
-	poetry run pytest -vv linked_list tests -s
+	poetry run pytest -vv tests/test_linked_list.py -s
 
 test_doubly_linked_list:
-	poetry run pytest -vv doubly_linked_list tests -s
+	poetry run pytest -vv tests/test_doubly_linked_list.py -s
