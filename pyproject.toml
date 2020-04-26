@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "gitalek_linked_list"
-version = "0.1.3"
+version = "0.2.3"
 description = "Data structures realization"
 authors = ["Alexander <sunny.os87@rambler.ru>"]
 packages = [
