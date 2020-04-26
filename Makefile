@@ -11,7 +11,7 @@ build:
 lint:
 	poetry run flake8 data_structures tests
 
-test_all:
+test:
 	poetry run pytest -vv
 
 test_linked_list:
